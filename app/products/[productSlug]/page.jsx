@@ -14,7 +14,6 @@ const getData = async (slug) => {
 export default async function ProductDetails({ params }) {
   const { productSlug } = await params;
   const product = await getData(productSlug);
-
   const {
     nameEn,
     mainImageUrl,
