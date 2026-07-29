@@ -1,7 +1,10 @@
-import Link from 'next/link';
-import React from 'react';
+"use client";
+import Link from "next/link";
+import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const cartCount = useSelector((state) => state.cart.items).length;
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,7 +13,9 @@ export default function Navbar() {
             <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               MyShop
             </span>
-            <span className="hidden sm:inline text-sm text-gray-400 font-light">| My Store</span>
+            <span className="hidden sm:inline text-sm text-gray-400 font-light">
+              | My Store
+            </span>
           </Link>
 
           <ul className="hidden md:flex items-center gap-1">
@@ -46,12 +51,36 @@ export default function Navbar() {
                 Account
               </Link>
             </li>
+            <div
+              onClick={() => navigate("/cart")}
+              className="relative cursor-pointer"
+            >
+              {cartCount > 0 && (
+                <span
+                  className="absolute -top-3 
+          -right-1.5 bg-cyan-500 text-white-50 w-5 h-5 
+          flex items-center justify-center rounded-full"
+                >
+                  {cartCount}
+                </span>
+              )}
+            </div>
           </ul>
 
           <div className="md:hidden">
             <button className="text-gray-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition">
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>
