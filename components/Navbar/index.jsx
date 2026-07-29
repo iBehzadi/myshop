@@ -1,74 +1,75 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const cartCount = useSelector((state) => state.cart.items).length;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/products", label: "Products" },
+    { href: "/dashboard", label: "Login/Register" },
+  ];
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600">
-              MyShop
-            </span>
-            <span className="hidden sm:inline text-sm text-gray-400 font-light">
-              | My Store
+              Khanoumi Shop
             </span>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-1">
-            <li>
-              <Link
-                href="/"
-                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products"
-                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
-              >
-                Products
-              </Link>
-            </li>
-            <li>
+          <ul className="hidden md:flex items-center justify-center gap-1">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li className="flex items-center justify-center">
               <Link
                 href="/checkout"
-                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
+                className="relative cursor-pointer  rounded-lg hover:bg-blue-50 transition"
               >
-                Cart
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/dashboard"
-                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
-              >
-                Account
-              </Link>
-            </li>
-            <div
-              onClick={() => navigate("/cart")}
-              className="relative cursor-pointer"
-            >
-              {cartCount > 0 && (
-                <span
-                  className="absolute -top-3 
-          -right-1.5 bg-cyan-500 text-white-50 w-5 h-5 
-          flex items-center justify-center rounded-full"
+                <svg
+                  className="h-6 w-6 text-gray-700 hover:text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  {cartCount}
-                </span>
-              )}
-            </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-1 bg-cyan-500 text-white text-xs w-3 h-5 flex items-center justify-center rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </li>
           </ul>
 
           <div className="md:hidden">
-            <button className="text-gray-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition">
+            <button
+              onClick={toggleMenu}
+              className="text-gray-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition"
+              aria-label="Toggle menu"
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -79,13 +80,42 @@ export default function Navbar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
+                  d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
                 />
               </svg>
             </button>
           </div>
         </div>
       </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 shadow-lg absolute left-0 right-0 top-16 z-40">
+          <div className="container mx-auto px-4 py-4 space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className="block px-4 py-3 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-base"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/checkout"
+              onClick={closeMenu}
+              className="flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-base"
+            >
+              <span>Checkout</span>
+              {cartCount > 0 && (
+                <span className="bg-cyan-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

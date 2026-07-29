@@ -62,12 +62,12 @@ const ProductCard = ({ product }) => {
 
       <div className="p-4 space-y-2">
         <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-snug">
-          {nameFa}
+          {nameEn}
         </h3>
         <p className="text-xs text-gray-400 line-clamp-1" dir="ltr">
           {nameEn}
         </p>
-        <p className="text-xs text-gray-500">{brand.nameFa}</p>
+        <p className="text-xs text-gray-500">{brand.nameEn}</p>
 
         <div className="flex items-center justify-between pt-1 border-t border-gray-100">
           <div className="flex flex-col">

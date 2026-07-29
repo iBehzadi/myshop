@@ -1,11 +1,10 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem } from "@/Store/Slices/cartStore"; // مسیر اکشن‌های خود را تنظیم کنید
+import { addItem, removeItem } from "@/Store/Slices/cartStore"; 
 
 export default function ProductActions({
   product,
-  //   formatPrice,
   hasDiscount,
   colorVariants,
   isSalable,
@@ -14,7 +13,6 @@ export default function ProductActions({
   const dispatch = useDispatch();
   const formatPrice = (price) =>
     `${(price / 10).toLocaleString("fa-IR")} Toman`;
-  // دریافت تعداد این محصول از سبد خرید
   const cartQuantity =
     useSelector(
       (state) =>
@@ -37,7 +35,6 @@ export default function ProductActions({
 
   return (
     <div className="flex flex-col">
-      {/* برند و عنوان */}
       <div className="text-sm text-blue-600 font-medium mb-1">
         {brand?.nameFa}
       </div>
@@ -48,7 +45,6 @@ export default function ProductActions({
         {nameEn}
       </p>
 
-      {/* امتیازات */}
       <div className="flex items-center gap-4 mt-3 text-sm text-gray-600">
         <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-full">
           <span className="text-yellow-500">★</span>
@@ -64,7 +60,6 @@ export default function ProductActions({
         </span>
       </div>
 
-      {/* قیمت */}
       <div className="mt-4 bg-gray-50 p-4 rounded-xl">
         {hasDiscount ? (
           <div className="flex items-center gap-3 flex-wrap">
@@ -85,7 +80,6 @@ export default function ProductActions({
         )}
       </div>
 
-      {/* وضعیت موجودی */}
       <div className="mt-4">
         {isSalable && !isDiscontinued ? (
           <div className="flex items-center gap-2 text-green-700 bg-green-50 px-4 py-2 rounded-full w-fit">
@@ -100,7 +94,6 @@ export default function ProductActions({
         )}
       </div>
 
-      {/* رنگ‌ها */}
       {colorVariants.length > 0 && (
         <div className="mt-4">
           <span className="text-sm font-medium text-gray-700">Colors:</span>
@@ -124,14 +117,12 @@ export default function ProductActions({
         </div>
       )}
 
-      {/* وزن */}
       {weight && weight.packageWeight > 0 && (
         <div className="mt-3 text-sm text-gray-500">
           Package Weight: {weight.packageWeight} {weight.unit}
         </div>
       )}
 
-      {/* دکمه‌های افزودن به سبد خرید */}
       <div className=" pt-4 flex items-center justify-center gap-4">
         {cartQuantity > 0 ? (
           <>

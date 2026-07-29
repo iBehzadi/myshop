@@ -5,7 +5,7 @@ import React from "react";
 const getData = async (slug) => {
   const res = await fetch(
     `https://www.khanoumi.com/api/ntl/v1/products/slug/${slug}`,
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 3600 } },
   );
   const data = await res.json();
   return data.data;
@@ -14,35 +14,28 @@ const getData = async (slug) => {
 export default async function ProductDetails({ params }) {
   const { productSlug } = await params;
   const product = await getData(productSlug);
-  // استخراج داده‌های مورد نیاز
   const {
     id,
     nameEn,
     mainImageUrl,
     images,
-    brand,
-    salesPrice,
-    discountPrice,
+
     discountPercent,
-    rate,
-    commentsCount,
-    addedToWishListCount,
+
     isSalable,
     isDiscontinued,
     variants,
     descriptionHtmlFa,
-    weight,
     breadcrumb,
   } = product;
 
   const hasDiscount = discountPercent > 0;
- 
+
   const colorVariants = variants?.filter((v) => v.color) || [];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* مسیر راهنما (Breadcrumb) */}
         <nav className="text-sm text-gray-500 mb-6 flex flex-wrap items-center gap-1">
           <span className="hover:text-blue-600 cursor-pointer">Home</span>
           {breadcrumb?.map((item, index) => (
@@ -59,7 +52,6 @@ export default async function ProductDetails({ params }) {
 
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-8">
-            {/* گالری تصاویر (بدون تغییر) */}
             <ProductGallery
               key={mainImageUrl}
               mainImage={mainImageUrl}
@@ -69,7 +61,6 @@ export default async function ProductDetails({ params }) {
               discountPercent={discountPercent}
             />
 
-            {/* بخش اطلاعات و دکمه‌ها - کامپوننت کلاینت */}
             <ProductActions
               product={product}
               hasDiscount={hasDiscount}
@@ -80,7 +71,6 @@ export default async function ProductDetails({ params }) {
           </div>
         </div>
 
-        {/* توضیحات و ویدیوها (بدون تغییر) */}
         <div className="mt-10 bg-white rounded-2xl shadow-lg p-6 md:p-8">
           <div className="flex items-center gap-3 border-b pb-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800">
@@ -104,7 +94,11 @@ export default async function ProductDetails({ params }) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {product.videos.map((video, index) => (
-                <video key={index} controls className="w-full rounded-xl shadow">
+                <video
+                  key={index}
+                  controls
+                  className="w-full rounded-xl shadow"
+                >
                   <source src={video} type="video/mp4" />
                 </video>
               ))}
