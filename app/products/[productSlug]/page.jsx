@@ -14,7 +14,6 @@ const getData = async (slug) => {
 export default async function ProductDetails({ params }) {
   const { productSlug } = await params;
   const product = await getData(productSlug);
-
   // استخراج داده‌های مورد نیاز
   const {
     id,
@@ -36,10 +35,8 @@ export default async function ProductDetails({ params }) {
     breadcrumb,
   } = product;
 
-  const finalPrice = discountPrice > 0 ? discountPrice : salesPrice;
   const hasDiscount = discountPercent > 0;
-  const formatPrice = (price) =>
-    `${(price / 10).toLocaleString("fa-IR")} Toman`;
+ 
   const colorVariants = variants?.filter((v) => v.color) || [];
 
   return (
