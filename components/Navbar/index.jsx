@@ -1,9 +1,12 @@
 "use client";
+import { logout } from "@/Store/Slices/authSlice";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Navbar() {
+  const { token } = useSelector((state) => state.auth);
+  const dispath = useDispatch();
   const cartCount = useSelector((state) => state.cart.items).length;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -13,7 +16,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/products", label: "Products" },
-    { href: "/dashboard", label: "Login/Register" },
+    { href: "/login", label: "Login/Register" },
   ];
 
   return (
@@ -27,16 +30,36 @@ export default function Navbar() {
           </Link>
 
           <ul className="hidden md:flex items-center justify-center gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
+            <li>
+              <Link
+                href="/"
+                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/products"
+                className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
+              >
+                Products
+              </Link>
+            </li>
+            {token ? (
+              <li>
+                <button className="px-2 text-white bg-red-400 rounded py-1 mr-4 hover:opacity-75 cursor-pointer" onClick={()=>dispath(logout())}>Logout</button>
+              </li>
+            ) : (
+              <li>
                 <Link
-                  href={link.href}
+                  href="/login"
                   className="px-4 py-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 font-medium text-sm"
                 >
-                  {link.label}
+                  Login/Register
                 </Link>
               </li>
-            ))}
+            )}
             <li className="flex items-center justify-center">
               <Link
                 href="/checkout"
@@ -80,7 +103,11 @@ export default function Navbar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                  d={
+                    isMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16M4 18h16"
+                  }
                 />
               </svg>
             </button>

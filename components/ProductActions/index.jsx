@@ -1,7 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem } from "@/Store/Slices/cartStore"; 
+import { addItem, removeItem } from "@/Store/Slices/cartSlice"; 
 
 export default function ProductActions({
   product,

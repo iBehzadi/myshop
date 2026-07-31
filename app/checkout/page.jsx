@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
-import { addItem, removeItem, clear } from "@/Store/Slices/cartStore"; // adjust path
+import { addItem, removeItem, clear } from "@/Store/Slices/cartSlice";
 
 export default function Checkout() {
   const dispatch = useDispatch();
