@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
   const isDiscounted = discountPercent > 0 && discountPrice > 0;
   const toToman = (price) => price / 10;
   const formatPrice = (price) =>
-    `${toToman(price).toLocaleString("fa-IR")} Toman`;
+    `${toToman(price).toLocaleString()} Toman`;
   const handleClick = () => {
     router.push(`/products/${slug}`);
   };

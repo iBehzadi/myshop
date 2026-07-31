@@ -15,13 +15,10 @@ export default async function ProductDetails({ params }) {
   const { productSlug } = await params;
   const product = await getData(productSlug);
   const {
-    id,
     nameEn,
     mainImageUrl,
     images,
-
     discountPercent,
-
     isSalable,
     isDiscontinued,
     variants,
@@ -38,7 +35,7 @@ export default async function ProductDetails({ params }) {
       <div className="max-w-7xl mx-auto">
         <nav className="text-sm text-gray-500 mb-6 flex flex-wrap items-center gap-1">
           <span className="hover:text-blue-600 cursor-pointer">Home</span>
-          {breadcrumb?.map((item, index) => (
+          {breadcrumb?.map((item) => (
             <React.Fragment key={item.id}>
               <span className="mx-1 text-gray-300">›</span>
               <span className="hover:text-blue-600 cursor-pointer">

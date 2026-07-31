@@ -12,7 +12,7 @@ export default function ProductActions({
 }) {
   const dispatch = useDispatch();
   const formatPrice = (price) =>
-    `${(price / 10).toLocaleString("fa-IR")} Toman`;
+    `${(price / 10).toLocaleString()} Toman`;
   const cartQuantity =
     useSelector(
       (state) =>
